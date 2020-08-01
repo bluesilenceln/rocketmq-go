@@ -1,0 +1,2 @@
+2020-07-30 17:52:30	debug	log path: %!(EXTRA string=/mnt/code/rocketmq-go/namesrv/log/namesrv.log)
+2020-07-30 17:52:39	debug	log path: /mnt/code/rocketmq-go/namesrv/log/namesrv.log

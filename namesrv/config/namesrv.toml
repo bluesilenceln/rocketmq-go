@@ -1,0 +1,11 @@
+rocketmqHome = "/usr/local/rocketmq"
+
+kvConfigPath = "/usr/local/rocketmq/namesrv/kvConfig.json"
+
+configStorePath = "/usr/local/rocketmq/namesrv/namesrv.properties"
+
+clusterTest = false
+
+orderMessageEnable = true
+
+listenAddr = "0.0.0.0:9876"

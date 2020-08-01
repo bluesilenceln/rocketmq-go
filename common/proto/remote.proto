@@ -1,0 +1,165 @@
+syntax = "proto3";
+
+option go_package = ".;common";
+
+package common;
+
+service RemoteRPC {
+    rpc Process(stream RemoteCommand) returns (stream RemoteCommand) {}
+}
+
+enum RequestCode {
+    PUT_KV_CONFIG = 0;
+    GET_KV_CONFIG = 1;
+    DELETE_KV_CONFIG = 2;
+    QUERY_DATA_VERSION = 3;
+    REGISTER_BROKER = 4;
+    UNREGISTER_BROKER = 5;
+    GET_ROUTEINFO_BY_TOPIC = 6;
+    GET_BROKER_CLUSTER_INFO = 7;
+    WIPE_WRITE_PERM_OF_BROKER = 8;
+    GET_ALL_TOPIC_LIST_FROM_NAMESERVER = 9;
+    DELETE_TOPIC_IN_NAMESRV = 10;
+    GET_KVLIST_BY_NAMESPACE = 11;
+    GET_TOPICS_BY_CLUSTER = 12;
+    GET_SYSTEM_TOPIC_LIST_FROM_NS = 13;
+    GET_UNIT_TOPIC_LIST = 14;
+    GET_HAS_UNIT_SUB_TOPIC_LIST = 15;
+    GET_HAS_UNIT_SUB_UNUNIT_TOPIC_LIST = 16;
+    UPDATE_NAMESRV_CONFIG = 17;
+    GET_NAMESRV_CONFIG = 18;
+}
+
+enum ResponseCode {
+    SUCCESS = 0;
+    SYSTEM_ERROR = 1;
+    SYSTEM_BUSY = 2;
+    REQUEST_CODE_NOT_SUPPORTED = 3;
+    TRANSACTION_FAILED = 4;
+    QUERY_NOT_FOUND = 5;
+    TOPIC_NOT_EXIST = 6;
+}
+
+message RemoteCommand {
+    int32 version = 1;
+    int32 code = 2;
+    bytes header = 3;
+    bytes body = 4;
+    string remark = 5;
+}
+
+// PUT_KV_CONFIG
+message PutKVConfigRequestHeader {
+    string namespace = 1;
+    string key = 2;
+    string value = 3;
+}
+
+// GET_KV_CONFIG
+message GetKVConfigRequestHeader {
+    string namespace = 1;
+    string key = 2;
+}
+
+message GetKVConfigResponseHeader {
+    string value = 1;
+}
+
+// DELETE_KV_CONFIG
+message DeleteKVConfigRequestHeader {
+    string namespace = 1;
+    string key = 2;
+}
+
+// QUERY_DATA_VERSION
+message QueryDataVersionRequestHeader {
+    string brokerName = 1;
+    string brokerAddr = 2;
+    string clusterName = 3;
+    int64 brokerId = 4;
+}
+
+message QueryDataVersionResponseHeader {
+    bool changed = 1;
+}
+
+// REGISTER_BROKER
+message RegisterBrokerRequestHeader {
+    string brokerName = 1;
+    string brokerAddr = 2;
+    string clusterName = 3;
+    string haServerAddr = 4;
+    int64 brokerId = 5;
+    bool compressed = 6;
+    int32 bodyCrc32 = 7;
+}
+
+message RegisterBrokerResponseHeader {
+    string haServerAddr = 1;
+    string masterAddr = 2;
+}
+
+message RegisterBrokerBody {
+    repeated string filterServerList = 1;
+}
+
+// UNREGISTER_BROKER
+message UnRegisterBrokerHeader {
+    string brokerName = 1;
+    string brokerAddr = 2;
+    string clusterName = 3;
+    int64 brokerId = 4;
+}
+
+// GET_ROUTEINFO_BY_TOPIC
+message GetRouteInfoRequestHeader {
+    string topic = 1;
+}
+
+// GET_BROKER_CLUSTER_INFO
+// 无
+
+// WIPE_WRITE_PERM_OF_BROKER
+message WipeWritePermOfBrokerRequestHeader {
+    string brokerName = 1;
+}
+
+message WipeWritePermOfBrokerResponseHeader {
+    int32 wipeTopicCount = 1;
+}
+
+// GET_ALL_TOPIC_LIST_FROM_NAMESERVER
+// 无
+
+// DELETE_TOPIC_IN_NAMESRV
+message DeleteTopicInNamesrvRequestHeader {
+    string topic = 1;
+}
+
+// GET_KVLIST_BY_NAMESPACE
+message GetKVListByNamespaceRequestHeader {
+    string namespace = 1;
+}
+
+// GET_TOPICS_BY_CLUSTER
+message GetTopicsByClusterRequestHeader {
+    string cluster = 1;
+}
+
+// GET_SYSTEM_TOPIC_LIST_FROM_NS
+// 无
+
+// GET_UNIT_TOPIC_LIST
+// 无
+
+// GET_HAS_UNIT_SUB_TOPIC_LIST
+// 无
+
+// GET_HAS_UNIT_SUB_UNUNIT_TOPIC_LIST
+// 无
+
+// UPDATE_NAMESRV_CONFIG
+// 无
+
+// GET_NAMESRV_CONFIG
+// 无
